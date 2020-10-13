@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include<limits.h>
-//#include "choose_sort.c"
+
+unsigned choose_sort(long long *, unsigned);
 
 short args_solve(int argc, char **argv, long long *from, long long *to) {
 
@@ -23,7 +24,7 @@ short args_solve(int argc, char **argv, long long *from, long long *to) {
             long long buf_int = 0;
             buf_string = malloc(sizeof(char) * strlen(argv[1]) - opt_len);
             buf_string = strchr(argv[1], '=') + 1;
-            if (buf_string[0] >= 49 && buf_string[0] <= 57 || buf_string[0] == '-')
+            if ((buf_string[0] >= 49 && buf_string[0] <= 57) || buf_string[0] == '-')
                 buf_int = strtoll(buf_string, &buf_string, 10);
             if (!strcmp(temp1, "--from=")) {
 
@@ -49,7 +50,7 @@ short args_solve(int argc, char **argv, long long *from, long long *to) {
         long long buf_int;
         buf_string = malloc(sizeof(char) * (strlen(argv[2]) - opt_len));
         buf_string = strchr(argv[2], '=') + 1;
-        if(buf_string[0] >= 49 && buf_string[0] <= 57 || buf_string[0] == '-')  buf_int = strtoll(buf_string, &buf_string, 10);
+        if((buf_string[0] >= 49 && buf_string[0] <= 57) || buf_string[0] == '-')  buf_int = strtoll(buf_string, &buf_string, 10);
         if(!strcmp(temp2, "--from=")) {
 
             if(strlen(buf_string) == 0) *from = buf_int; else *from = 0;
@@ -62,7 +63,7 @@ short args_solve(int argc, char **argv, long long *from, long long *to) {
         if(strcmp(argv[2], "--from=") == 0) *from = 0;
         if(strcmp(argv[2], "--to=") == 0) *to = 0;
     }
-    if(*from > *to || *from == LLONG_MIN && *to == LLONG_MAX) return -4;
+    if(*from == LLONG_MIN && *to == LLONG_MAX) return -4;
     if(!strcmp(temp1, temp2)) return -3;
     return 0;
 }
@@ -80,7 +81,6 @@ int main(int argc, char **argv) {
         scanf("%lld%c", &array[elems_count], &divider);
         elems_count++;
     }
-    realloc(&array, sizeof(long long) * elems_count);
     unsigned counter = 0;
     for(unsigned i = 0; i < elems_count;i++) {
 
