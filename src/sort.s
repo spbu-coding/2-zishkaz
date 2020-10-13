@@ -1,111 +1,125 @@
 	.file	"choose_sort.c"
 	.text
-	.globl	_choose_sort
-	.def	_choose_sort;	.scl	2;	.type	32;	.endef
-_choose_sort:
-LFB0:
+	.globl	choose_sort
+	.type	choose_sort, @function
+choose_sort:
+.LFB0:
 	.cfi_startproc
-	pushl	%ebp
-	.cfi_def_cfa_offset 8
-	.cfi_offset 5, -8
-	movl	%esp, %ebp
-	.cfi_def_cfa_register 5
-	pushl	%edi
-	pushl	%esi
-	pushl	%ebx
-	subl	$28, %esp
-	.cfi_offset 7, -12
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
-	.cfi_offset 3, -20
-	movl	12(%ebp), %eax
-	movl	8(%ebp), %edx
-	addl	%eax, %eax
-	movl	%eax, -32(%ebp)
-	addl	$15, %eax
-	shrl	$4, %eax
-	sall	$4, %eax
-	call	___chkstk_ms
-	subl	%eax, %esp
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$16, %rsp
+	movq	%fs:40, %rax
+	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
-	movl	%esp, -28(%ebp)
-L2:
-	cmpl	12(%ebp), %eax
-	je	L15
-	movl	-28(%ebp), %esi
-	movw	$0, (%esi,%eax,2)
-	incl	%eax
-	jmp	L2
-L15:
-	movl	12(%ebp), %eax
-	xorl	%ebx, %ebx
-	decl	%eax
-	movl	%eax, -36(%ebp)
-L4:
-	cmpl	%ebx, -36(%ebp)
-	jbe	L16
-	leal	1(%ebx), %esi
-	movl	%ebx, %eax
-	movl	%esi, %ecx
-L5:
-	cmpl	%ecx, 12(%ebp)
-	jbe	L17
-	movl	(%edx,%eax,8), %edi
-	cmpl	%edi, (%edx,%ecx,8)
-	movl	4(%edx,%ecx,8), %edi
-	sbbl	4(%edx,%eax,8), %edi
-	jge	L6
-	movl	%ecx, %eax
-L6:
-	incl	%ecx
-	jmp	L5
-L17:
-	cmpl	%eax, %ebx
-	je	L8
-	movl	-28(%ebp), %ebx
-	incw	-2(%ebx,%esi,2)
-	incw	(%ebx,%eax,2)
-	leal	(%edx,%eax,8), %eax
-	movl	(%eax), %ecx
-	movl	4(%eax), %ebx
-	addl	-8(%edx,%esi,8), %ecx
-	adcl	-4(%edx,%esi,8), %ebx
-	movl	%ecx, -8(%edx,%esi,8)
-	movl	%ebx, -4(%edx,%esi,8)
-	subl	(%eax), %ecx
-	sbbl	4(%eax), %ebx
-	movl	%ecx, (%eax)
-	movl	%ebx, 4(%eax)
-	subl	%ecx, -8(%edx,%esi,8)
-	sbbl	%ebx, -4(%edx,%esi,8)
-L8:
-	movl	%esi, %ebx
-	jmp	L4
-L16:
-	movl	-28(%ebp), %edi
-	movl	-32(%ebp), %edx
+	movl	%esi, %eax
+	movq	%rsp, %rcx
+	addq	%rax, %rax
+	addq	$15, %rax
+	shrq	$4, %rax
+	salq	$4, %rax
+	movq	%rax, %rdx
+	andq	$-4096, %rdx
+	subq	%rdx, %rcx
+	movq	%rcx, %rdx
+.L2:
+	cmpq	%rdx, %rsp
+	je	.L3
+	subq	$4096, %rsp
+	orq	$0, 4088(%rsp)
+	jmp	.L2
+.L3:
+	andl	$4095, %eax
+	subq	%rax, %rsp
+	testq	%rax, %rax
+	je	.L4
+	orq	$0, -8(%rsp,%rax)
+.L4:
+	movq	%rsp, %rcx
 	xorl	%eax, %eax
-	addl	%edi, %edx
-L10:
-	cmpl	%edx, %edi
-	je	L18
-	cmpw	$0, (%edi)
-	jle	L11
-	incl	%eax
-L11:
-	addl	$2, %edi
-	jmp	L10
-L18:
-	leal	-12(%ebp), %esp
-	popl	%ebx
-	.cfi_restore 3
-	popl	%esi
-	.cfi_restore 6
-	popl	%edi
-	.cfi_restore 7
-	popl	%ebp
-	.cfi_restore 5
-	.cfi_def_cfa 4, 4
+.L5:
+	cmpl	%eax, %esi
+	jbe	.L22
+	movw	$0, (%rcx,%rax,2)
+	incq	%rax
+	jmp	.L5
+.L22:
+	xorl	%eax, %eax
+	leal	-1(%rsi), %r10d
+.L7:
+	movl	%eax, %edx
+	cmpl	%eax, %r10d
+	jbe	.L23
+	leaq	1(%rax), %r9
+	movq	%r9, %r8
+.L8:
+	cmpl	%r8d, %esi
+	jbe	.L24
+	movslq	%edx, %r11
+	movq	(%rdi,%r11,8), %r11
+	cmpq	%r11, (%rdi,%r8,8)
+	cmovl	%r8d, %edx
+	incq	%r8
+	jmp	.L8
+.L24:
+	cmpl	%eax, %edx
+	je	.L11
+	movslq	%edx, %rdx
+	incw	(%rcx,%rax,2)
+	leaq	(%rdi,%rdx,8), %r8
+	incw	(%rcx,%rdx,2)
+	movq	(%r8), %rdx
+	addq	(%rdi,%rax,8), %rdx
+	movq	%rdx, (%rdi,%rax,8)
+	subq	(%r8), %rdx
+	movq	%rdx, (%r8)
+	subq	%rdx, (%rdi,%rax,8)
+.L11:
+	movq	%r9, %rax
+	jmp	.L7
+.L23:
+	xorl	%eax, %eax
+	xorl	%r8d, %r8d
+.L13:
+	cmpl	%eax, %esi
+	jbe	.L25
+	cmpw	$0, (%rcx,%rax,2)
+	jle	.L14
+	incl	%r8d
+.L14:
+	incq	%rax
+	jmp	.L13
+.L25:
+	movq	-8(%rbp), %rax
+	xorq	%fs:40, %rax
+	je	.L16
+	call	__stack_chk_fail@PLT
+.L16:
+	leave
+	.cfi_def_cfa 7, 8
+	movl	%r8d, %eax
 	ret
 	.cfi_endproc
-LFE0:
-	.ident	"GCC: (MinGW.org GCC Build-2) 9.2.0"
+.LFE0:
+	.size	choose_sort, .-choose_sort
+	.ident	"GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	 1f - 0f
+	.long	 4f - 1f
+	.long	 5
+0:
+	.string	 "GNU"
+1:
+	.align 8
+	.long	 0xc0000002
+	.long	 3f - 2f
+2:
+	.long	 0x3
+3:
+	.align 8
+4:
