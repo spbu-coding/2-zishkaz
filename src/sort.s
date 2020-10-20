@@ -1,125 +1,94 @@
-	.file	"choose_sort.c"
+	.file	"sort.c"
 	.text
 	.globl	choose_sort
 	.type	choose_sort, @function
 choose_sort:
 .LFB0:
 	.cfi_startproc
-	endbr64
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	subq	$16, %rsp
+	pushq	%rbx
+	subq	$24, %rsp
+	.cfi_offset 3, -24
 	movq	%fs:40, %rax
-	movq	%rax, -8(%rbp)
+	movq	%rax, -24(%rbp)
 	xorl	%eax, %eax
 	movl	%esi, %eax
-	movq	%rsp, %rcx
 	addq	%rax, %rax
-	addq	$15, %rax
+	addq	$16, %rax
 	shrq	$4, %rax
 	salq	$4, %rax
-	movq	%rax, %rdx
-	andq	$-4096, %rdx
-	subq	%rdx, %rcx
-	movq	%rcx, %rdx
-.L2:
-	cmpq	%rdx, %rsp
-	je	.L3
-	subq	$4096, %rsp
-	orq	$0, 4088(%rsp)
-	jmp	.L2
-.L3:
-	andl	$4095, %eax
 	subq	%rax, %rsp
-	testq	%rax, %rax
-	je	.L4
-	orq	$0, -8(%rsp,%rax)
-.L4:
-	movq	%rsp, %rcx
 	xorl	%eax, %eax
-.L5:
+	movq	%rsp, %rcx
+.L2:
 	cmpl	%eax, %esi
-	jbe	.L22
+	jbe	.L16
 	movw	$0, (%rcx,%rax,2)
 	incq	%rax
-	jmp	.L5
-.L22:
-	xorl	%eax, %eax
+	jmp	.L2
+.L16:
 	leal	-1(%rsi), %r10d
-.L7:
-	movl	%eax, %edx
+	xorl	%eax, %eax
+.L4:
 	cmpl	%eax, %r10d
-	jbe	.L23
+	movl	%eax, %r11d
+	jbe	.L17
 	leaq	1(%rax), %r9
+	movl	%eax, %edx
 	movq	%r9, %r8
-.L8:
+.L5:
 	cmpl	%r8d, %esi
-	jbe	.L24
-	movslq	%edx, %r11
-	movq	(%rdi,%r11,8), %r11
-	cmpq	%r11, (%rdi,%r8,8)
+	jbe	.L18
+	movslq	%edx, %rbx
+	movq	(%rdi,%rbx,8), %rbx
+	cmpq	%rbx, (%rdi,%r8,8)
 	cmovl	%r8d, %edx
 	incq	%r8
-	jmp	.L8
-.L24:
-	cmpl	%eax, %edx
-	je	.L11
+	jmp	.L5
+.L18:
+	cmpl	%edx, %r11d
+	je	.L8
 	movslq	%edx, %rdx
 	incw	(%rcx,%rax,2)
 	leaq	(%rdi,%rdx,8), %r8
 	incw	(%rcx,%rdx,2)
-	movq	(%r8), %rdx
-	addq	(%rdi,%rax,8), %rdx
+	movq	(%rdi,%rax,8), %rdx
+	xorq	(%r8), %rdx
 	movq	%rdx, (%rdi,%rax,8)
-	subq	(%r8), %rdx
+	xorq	(%r8), %rdx
 	movq	%rdx, (%r8)
-	subq	%rdx, (%rdi,%rax,8)
-.L11:
+	xorq	%rdx, (%rdi,%rax,8)
+.L8:
 	movq	%r9, %rax
-	jmp	.L7
-.L23:
+	jmp	.L4
+.L17:
+	xorl	%edx, %edx
 	xorl	%eax, %eax
-	xorl	%r8d, %r8d
-.L13:
-	cmpl	%eax, %esi
-	jbe	.L25
-	cmpw	$0, (%rcx,%rax,2)
-	jle	.L14
-	incl	%r8d
-.L14:
-	incq	%rax
-	jmp	.L13
-.L25:
-	movq	-8(%rbp), %rax
-	xorq	%fs:40, %rax
-	je	.L16
+.L10:
+	cmpl	%edx, %esi
+	jbe	.L19
+	cmpw	$0, (%rcx,%rdx,2)
+	jle	.L11
+	incl	%eax
+.L11:
+	incq	%rdx
+	jmp	.L10
+.L19:
+	movq	-24(%rbp), %rbx
+	xorq	%fs:40, %rbx
+	je	.L13
 	call	__stack_chk_fail@PLT
-.L16:
+.L13:
+	movq	-8(%rbp), %rbx
 	leave
 	.cfi_def_cfa 7, 8
-	movl	%r8d, %eax
 	ret
 	.cfi_endproc
 .LFE0:
 	.size	choose_sort, .-choose_sort
-	.ident	"GCC: (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0"
+	.ident	"GCC: (Ubuntu 7.5.0-3ubuntu1~18.04) 7.5.0"
 	.section	.note.GNU-stack,"",@progbits
-	.section	.note.gnu.property,"a"
-	.align 8
-	.long	 1f - 0f
-	.long	 4f - 1f
-	.long	 5
-0:
-	.string	 "GNU"
-1:
-	.align 8
-	.long	 0xc0000002
-	.long	 3f - 2f
-2:
-	.long	 0x3
-3:
-	.align 8
-4:
