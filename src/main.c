@@ -26,6 +26,8 @@ short args_solve(int argc, char **argv, long long *from, long long *to) {
             buf_string = strchr(argv[1], '=') + 1;
             if ((buf_string[0] >= 49 && buf_string[0] <= 57) || buf_string[0] == '-')
                 buf_int = strtoll(buf_string, &buf_string, 10);
+            else if(strlen(buf_string) > 0) temp1 = " ";
+
             if (!strcmp(temp1, "--from=")) {
 
                 if (strlen(buf_string) == 0) *from = buf_int; else *from = 0;
@@ -50,7 +52,9 @@ short args_solve(int argc, char **argv, long long *from, long long *to) {
         long long buf_int;
         buf_string = malloc(sizeof(char) * (strlen(argv[2]) - opt_len));
         buf_string = strchr(argv[2], '=') + 1;
-        if((buf_string[0] >= 49 && buf_string[0] <= 57) || buf_string[0] == '-')  buf_int = strtoll(buf_string, &buf_string, 10);
+        if((buf_string[0] >= 49 && buf_string[0] <= 57) || buf_string[0] == '-')
+            buf_int = strtoll(buf_string, &buf_string, 10);
+        else if(strlen(buf_string) > 0) temp2 = " ";
         if(!strcmp(temp2, "--from=")) {
 
             if(strlen(buf_string) == 0) *from = buf_int; else *from = 0;
