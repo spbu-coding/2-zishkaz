@@ -113,6 +113,7 @@ int main(int argc, char **argv) {
             if(array[i] >= sort_to) fprintf(stderr, "%lld ", array[i]);
         }
     }
+    
     unsigned swapped_count = 0;
     if(counter > 0) swapped_count = choose_sort(array_reduced, counter);
     free(array);
