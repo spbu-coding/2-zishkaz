@@ -95,13 +95,13 @@ int main(int argc, char **argv) {
         elems_count++;
     }
     unsigned counter = 0;
-    for(unsigned i = 0; i < elems_count;i++) {
+    for(unsigned i = 0; i < elems_count; i++) {
 
         if(array[i] > sort_from && array[i] < sort_to) counter++;
     }
     long long *array_reduced = malloc(sizeof(long long) * counter);
     counter = 0;
-    for(unsigned i =0; i< elems_count;i++) {
+    for(unsigned i = 0; i < elems_count; i++) {
 
         if(array[i] > sort_from && array[i] < sort_to) {
 
@@ -113,9 +113,9 @@ int main(int argc, char **argv) {
             if(array[i] >= sort_to) fprintf(stderr, "%lld ", array[i]);
         }
     }
-    
+
     unsigned swapped_count = 0;
-    if(counter > 0) swapped_count = choose_sort(array_reduced, counter);
+    if(counter > 0 && (sort_to > sort_from)) swapped_count = choose_sort(array_reduced, counter);
     free(array);
     free(array_reduced);
     return swapped_count;
