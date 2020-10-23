@@ -28,8 +28,8 @@ short args_solve(int argc, char **argv, long long *from, long long *to) {
     } else if (from_num == 0 && to_num == 0) {
         return -4;
     }
-    *from = from_value;
-    *to = to_value;
+    if(from_num == 1) *from = from_value;
+    if(to_num == 1) *to = to_value;
     return 0;
 }
 
